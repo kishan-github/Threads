@@ -1,0 +1,59 @@
+Syncronization :-
+
+Using MUTEX - 
+
+pthread_mutex_t mutex;
+
+1. int pthread_mutex_init(pthread_mutex_t *restrict mutex,
+              const pthread_mutexattr_t *restrict attr);
+
+- Initialize the mutex object.
+			  
+2. int pthread_mutex_destroy(pthread_mutex_t *mutex);
+
+- Destroy the mutex object.
+
+3. pthread_mutex_lock(pthread_mutex_t);
+
+- Used to acquire a lock on the specified mutex variable. 
+- If the mutex is already locked by another thread, this call will block the calling thread until the mutex is unlocked.
+
+4. pthread_mutex_trylock(pthread_mutex_t);
+
+- Will attempt to lock a mutex. However, if the mutex is already locked, the routine will return immediately with a "busy" error code. 
+- useful in preventing deadlock conditions, as in a priority-inversion situation.
+
+5. pthread_mutex_unlock(pthread_mutex_t); 
+
+- Will unlock a mutex if called by the owning thread. 
+- An error will be returned if:
+	- If the mutex was already unlocked
+	- If the mutex is owned by another thread
+	
+
+Using Condition variables :-
+
+Type - pthread_cond_t
+
+1. int pthread_cond_init(pthread_cond_t *restrict cond, const pthread_condattr_t *restrict attr);
+
+- initialize the condition variable.
+			  
+2. int pthread_cond_destroy(pthread_cond_t *cond);
+
+- Destroy the condition variable.
+
+3. int pthread_cond_wait(pthread_cond_t *restrict cond, pthread_mutex_t *restrict mutex);
+
+- Blocks the calling thread until specified codition variable is signalled.
+- Should be called when a mutex is locked. It will automatically unlock the mutex while waiting for the signal and lock it once signal is received.
+- Recommended to use in while to avoid issues.
+
+4. int pthread_cond_signal(pthread_cond_t *cond);
+
+- Signal the thread waiting for the condition variable.
+- Should lock mutex before signalling and unlock after signalling.
+	   
+4. int pthread_cond_broadcast(pthread_cond_t *cond);
+
+- Should be called when more than 1 thread is waiting.
