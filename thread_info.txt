@@ -1,5 +1,7 @@
 Threads :-
 
+Reference - https://computing.llnl.gov/tutorials/pthreads/
+
 1. It is a light weight process. Threads work within a process i.e, process provides resources to the thread.
 2. Threads have their own :-
 		- Program Counter ( PC ).
