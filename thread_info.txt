@@ -1,0 +1,46 @@
+Threads :-
+
+1. It is a light weight process. Threads work within a process i.e, process provides resources to the thread.
+2. Threads have their own :-
+		- Program Counter ( PC ).
+		- Stack space.
+		- Register set.
+		
+3. Threads are not independent of each other. So they share :
+		- Code section.
+		- Data section ( Global and static variables).
+		- OS resouces like files and signals.
+		
+Thread functions :-
+
+1. pthread_create(&thread_id, NULL, routine, (void *)arg);
+
+- On successful creation of thread, pthread_create returns 0 and the thread id of newly created thread will be in thread_id variable.
+- 2nd argument is a structure of attributes that can be passed if needed.
+- routine is the function that needs to be invoked when thread is created.
+- arg variable is used to store the arguments that we want to pass to the routine function.
+
+2. pthread_exit(void *ptr);
+
+- Terminates the execution of the calling thread and makes ptr available to any succcessfull join.
+
+3. pthread_t pthread_self(void);
+
+- Returns the thread id of the calling thread.
+
+4. int pthread_join(pthread_t thread, void **value_ptr);
+
+- Suspends execution of calling thread until target thread terminates.
+- value_ptr will hold the value passed by pthread_exit.
+- Returns 0 on successful.
+
+5. int pthread_detach(pthread_t thread);
+
+- Indicates that the storage for thread can be reclaimed when thread is terminated. If thread is not terminated, pthread_detach shall not cause it to
+terminate.
+
+
+IMPORTANT POINTS :-
+
+- The pthread_join() or pthread_detach() function should eventually be called for every thread that is created with the detachstate attribute set to 
+PTHREAD_CREATE_JOINABLE so that storage associated with the thread may be reclaimed.
