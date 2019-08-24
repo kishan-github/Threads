@@ -44,5 +44,22 @@ terminate.
 
 IMPORTANT POINTS :-
 
+Terminating Threads & pthread_exit():
+
+1. There are several ways in which a thread may be terminated:
+	- The thread returns normally from its starting routine. Its work is done.
+	- The thread makes a call to the pthread_exit subroutine - whether its work is done or not.
+	- The thread is canceled by another thread via the pthread_cancel routine.
+	- The entire process is terminated due to making a call to either the exec() or exit()
+	- If main() finishes first, without calling pthread_exit explicitly itself.
+	
+2. The pthread_exit() routine allows the programmer to specify an optional termination status parameter. This optional parameter is typically returned to threads "joining" the terminated thread (covered later).
+	- Cleanup: the pthread_exit() routine does not close files; any files opened inside the thread will remain open after the thread is terminated.
+
+Discussion on calling pthread_exit() from main():
+	- There is a definite problem if main() finishes before the threads it spawned if you don't call pthread_exit() explicitly. All of the threads it created will terminate because main() is done and no longer exists to support the threads.
+	  By having main() explicitly call pthread_exit() as the last thing it does, main() will block and be kept alive to support the threads it created until they are done.
+
+
 - The pthread_join() or pthread_detach() function should eventually be called for every thread that is created with the detachstate attribute set to 
 PTHREAD_CREATE_JOINABLE so that storage associated with the thread may be reclaimed.
