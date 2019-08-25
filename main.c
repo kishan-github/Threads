@@ -12,13 +12,13 @@ pthread_cond_t value_cond;
 // Routine which will wait for particular condition.
 void *wait_cond(void *arg)
 {
+	pthread_mutex_lock(&update_mutex);
 	while(var < MAX_VALUE)
 	{
-		pthread_mutex_lock(&update_mutex);
 		pthread_cond_wait(&value_cond, &update_mutex);
 		printf("\nSignal received with value = %d\n", var);
-		pthread_mutex_unlock(&update_mutex);
 	}
+	pthread_mutex_unlock(&update_mutex);
 	pthread_exit(NULL);
 }
 
